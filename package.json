@@ -11,6 +11,9 @@
   "dependencies": {
     "express": "latest",
     "axios": "latest",
-    "mustache": "latest"
+    "mustache": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
   }
 }
