@@ -3,19 +3,19 @@ const mustache = require('mustache');
 const fs = require('fs');
 const path = require('path');
 const app = express();
-app.use(express.json());
+const PORT = process.env.PORT || 3000;
 app.use('/assets/', express.static(path.join(__dirname, 'assets')));
 app.get("/", (req, res) => {
     const index = path.join(__dirname, 'pages', 'evaloare.html');
     fs.readFile(index, 'utf8', (err, data) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('A apărut o eroare la citirea fișierului HTML.');
-      } else {
-        res.status(200).send(data);
-      }
+        if (err) {
+            console.error(err);
+            res.status(500).send('A apărut o eroare la citirea fișierului HTML.');
+        } else {
+            res.status(200).send(data);
+        }
     });
-  });
+});
 app.use((req, res) => {
     const index = path.join(__dirname, 'pages', '404.html');
     fs.readFile(index, 'utf8', (err, data) => {
@@ -28,8 +28,4 @@ app.use((req, res) => {
         }
     });
 });
-const PORT = 80;
-app.listen(PORT, () => {
-    console.log(`HTTP server is running on port ${PORT}`);
-    console.log(`http://localhost:${PORT}`);
-});
+module.exports = app;
