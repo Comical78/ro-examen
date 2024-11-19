@@ -16,6 +16,4 @@ app.use("/", (req, res) => {
 app.use((req, res) => {
     res.render('404', { location: req.originalUrl });
 });
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+module.exports = app;

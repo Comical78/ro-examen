@@ -4,16 +4,18 @@
   "author": "Spargat Team",
   "license": "SPARGAT",
   "description": "RoExamen",
-  "main": "index.js",
+  "main": "vercel.js",
   "scripts": {
-    "build": "node index.js"
+    "build": "node index.js",
+    "vercel": "node vercel.js"
   },
   "dependencies": {
     "express": "latest",
     "axios": "latest",
-    "mustache": "latest",
+    "dotenv": "latest",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "ejs": "latest"
   }
 }

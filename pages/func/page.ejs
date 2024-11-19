@@ -1,0 +1,92 @@
+<div class="button-container">
+    <button id="fullscreen-button">🔲</button>
+    <button id="increase-size-button">+</button>
+    <button id="decrease-size-button">-</button>
+    <button id="refresh-button">🔄</button>
+</div>
+
+<div id="rezultate"
+    style="position: fixed; top: 0; right: -300px; width: 20%; height: 100%; background-color: rgba(0, 0, 0, 0.9); color: white; padding: 20px; display: flex; flex-direction: row; transition: width 0.3s ease-in-out;">
+    <div id="resize-handle"
+        style="position: absolute; top: 50%; left: -5px; width: 10px; height: 30px; background-color: blue; cursor: ew-resize; transform: translateY(-50%);">
+    </div>
+    <div style="flex-grow: 1;">
+        <h3>Rezultate</h3>
+        <div class="image-container">
+            <img src="../../assets/2025-01/11.webp" alt="Image 1" style="width: 100%; margin-bottom: 10px;">
+            <img src="../../assets/2025-01/12.webp" alt="Image 2" style="width: 100%; margin-bottom: 10px;">
+            <img src="../../assets/2025-01/13.webp" alt="Image 3" style="width: 100%; margin-bottom: 10px;">
+        </div>
+    </div>
+</div>
+
+<script>
+    var images = document.querySelectorAll('img');
+    images.forEach(function (img) {
+        img.addEventListener('contextmenu', function (event) {
+            event.preventDefault();
+        });
+    });
+    var isFullscreen = false;
+    function toggleFullscreen() {
+        if (isFullscreen) {
+            document.exitFullscreen?.();
+        } else {
+            document.documentElement.requestFullscreen?.();
+        }
+        isFullscreen = !isFullscreen;
+    }
+    var button = document.getElementById("fullscreen-button");
+    button.addEventListener("click", toggleFullscreen);
+    var scaleFactor = 1;
+    function increaseSize() {
+        scaleFactor += 0.1;
+        updateImageSize();
+    }
+    function decreaseSize() {
+        scaleFactor = Math.max(0.1, scaleFactor - 0.1);
+        updateImageSize();
+    }
+    function updateImageSize() {
+        var images = document.querySelectorAll('.image-container img');
+        images.forEach(function (img) {
+            img.style.transform = 'scale(' + scaleFactor + ')';
+            img.style.transition = 'transform 0.3s';
+        });
+    }
+    var increaseButton = document.getElementById("increase-size-button");
+    increaseButton.addEventListener("click", increaseSize);
+    var decreaseButton = document.getElementById("decrease-size-button");
+    decreaseButton.addEventListener("click", decreaseSize);
+    function refreshPage() {
+        location.reload();
+    }
+    var refreshButton = document.getElementById("refresh-button");
+    refreshButton.addEventListener("click", refreshPage);
+    var resizeHandle = document.getElementById("resize-handle");
+    var panel = document.getElementById("rezultate");
+    var isResizing = false;
+    var initialWidth = panel.offsetWidth;
+    var initialX = 0;
+    resizeHandle.addEventListener("mousedown", function (event) {
+        isResizing = true;
+        initialX = event.clientX;
+        initialWidth = panel.offsetWidth;
+        document.addEventListener("mousemove", resizePanel);
+        document.addEventListener("mouseup", stopResizing);
+        event.preventDefault();
+    });
+    function resizePanel(event) {
+        if (isResizing) {
+            var diff = event.clientX - initialX;
+            var newWidth = initialWidth + diff;
+            newWidth = Math.max(100, Math.min(newWidth, window.innerWidth * 0.8));
+            panel.style.width = newWidth + "px";
+        }
+    }
+    function stopResizing() {
+        isResizing = false;
+        document.removeEventListener("mousemove", resizePanel);
+        document.removeEventListener("mouseup", stopResizing);
+    }
+</script>
